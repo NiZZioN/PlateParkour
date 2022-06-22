@@ -1,0 +1,14 @@
+name: Parkour
+version: '${version}'
+main: me.nizzion.parkour.Parkour
+api-version: 1.19
+prefix: Parkour
+authors: [ NiZZioN, nkomarn ]
+description: Simple plate Parkour!
+website: https://firestartermc.com
+commands:
+  parkour:
+    aliases: pk
+    description: Plate Parkour Plugin! Wow.
+    usage: /pk <subcommand>
+    permission: default
