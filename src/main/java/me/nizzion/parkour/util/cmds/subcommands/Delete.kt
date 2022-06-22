@@ -1,4 +1,4 @@
-package me.nizzion.parkour.util.cmds
+package me.nizzion.parkour.util.cmds.subcommands
 
 import me.nizzion.parkour.Parkour
 import org.bukkit.entity.Player

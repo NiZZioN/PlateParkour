@@ -18,11 +18,15 @@ repositories {
         name = "sonatype"
         setUrl("https://oss.sonatype.org/content/groups/public/")
     }
+    maven {
+        setUrl("https://jitpack.io")
+    }
 }
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.19-R0.1-SNAPSHOT")
     implementation(kotlin("stdlib"))
+    implementation("com.github.TechFortress:GriefPrevention:Tag")
 }
 
 tasks.processResources {

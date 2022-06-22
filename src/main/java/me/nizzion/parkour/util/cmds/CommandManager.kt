@@ -1,6 +1,9 @@
 package me.nizzion.parkour.util.cmds
 
 import me.nizzion.parkour.Parkour
+import me.nizzion.parkour.util.cmds.subcommands.Delete
+import me.nizzion.parkour.util.cmds.subcommands.Info
+import me.nizzion.parkour.util.cmds.subcommands.Set
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player

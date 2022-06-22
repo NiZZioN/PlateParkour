@@ -1,4 +1,4 @@
-package me.nizzion.parkour.util.cmds
+package me.nizzion.parkour.util.cmds.subcommands
 
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
@@ -17,6 +17,7 @@ class Info {
         p.sendMessage("$lgray SubCommands: ")
         p.sendMessage("$gray$st--------------------")
         p.sendMessage("$aqua - set")
+        p.sendMessage("$aqua - delete")
         p.sendMessage("$aqua - start")
         p.sendMessage("$aqua - finish")
         p.sendMessage("$gray$st---------------------------------------------")

@@ -1,4 +1,4 @@
-package me.nizzion.parkour.util.cmds
+package me.nizzion.parkour.util.cmds.subcommands
 
 import me.nizzion.parkour.Parkour
 import org.bukkit.entity.Player
@@ -18,6 +18,8 @@ class Set(
 
         fun setValues(p: Player){
             if(hasParkour.containsKey(p.uniqueId)){
+
+
                 Parkour.instance.logger.info("Player ${p.name} already has a parkour set.")
                 Parkour.instance.logger.info(
                     "${p.name} Parkour:" +
