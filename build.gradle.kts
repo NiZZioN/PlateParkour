@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "me.nizzion"
-version = "v1.0"
+version = "1.0"
 
 repositories {
     mavenCentral()
@@ -19,14 +19,15 @@ repositories {
         setUrl("https://oss.sonatype.org/content/groups/public/")
     }
     maven {
+        name = "jitpack"
         setUrl("https://jitpack.io")
     }
 }
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.19-R0.1-SNAPSHOT")
+    compileOnly("com.github.TechFortress:GriefPrevention:16.18")
     implementation(kotlin("stdlib"))
-    implementation("com.github.TechFortress:GriefPrevention:Tag")
 }
 
 tasks.processResources {

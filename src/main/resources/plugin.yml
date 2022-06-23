@@ -6,6 +6,8 @@ prefix: Parkour
 authors: [ NiZZioN, nkomarn ]
 description: Simple plate Parkour!
 website: https://firestartermc.com
+depend:
+  [ Vault, GriefPrevention ]
 commands:
   parkour:
     aliases: pk

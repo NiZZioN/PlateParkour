@@ -1,50 +1,26 @@
 package me.nizzion.parkour.util.cmds.subcommands
 
 import me.nizzion.parkour.Parkour
+import me.nizzion.parkour.items.ItemManager
+import me.ryanhamshire.GriefPrevention.DataStore
+import me.ryanhamshire.GriefPrevention.GriefPrevention
+import org.bukkit.Location
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
 import java.util.*
+import javax.xml.crypto.Data
 import kotlin.collections.HashMap
 
-class Set(
-    private var xPos : Double,
-    private var yPos : Double,
-    private var zPos : Double,
-    private var yaw  : Float,
-    private var pitch: Float
-    ) {
+class Set {
 
     companion object {
-        val hasParkour: HashMap<UUID, Set> = HashMap()
-
+        val hasParkour: HashMap<UUID, Boolean> = HashMap()
         fun setValues(p: Player){
             if(hasParkour.containsKey(p.uniqueId)){
-
-
-                Parkour.instance.logger.info("Player ${p.name} already has a parkour set.")
-                Parkour.instance.logger.info(
-                    "${p.name} Parkour:" +
-                            " x ${hasParkour[p.uniqueId]?.xPos}"  +
-                            " y ${hasParkour[p.uniqueId]?.yPos}"  +
-                            " z ${hasParkour[p.uniqueId]?.zPos} " +
-                            " yaw ${hasParkour[p.uniqueId]?.yaw}" +
-                            " pitch ${hasParkour[p.uniqueId]?.pitch}"
-                )
+                Parkour.instance.logger.info("${p.name} already has a wand!")
             } else {
-                hasParkour[p.uniqueId] = Set(p.location.x,
-                    p.location.y,
-                    p.location.z,
-                    p.location.yaw,
-                    p.location.pitch
-                )
-                Parkour.instance.logger.info(
-                    "You set:" +
-                            " x ${hasParkour[p.uniqueId]?.xPos}"  +
-                            " y ${hasParkour[p.uniqueId]?.yPos}"  +
-                            " z ${hasParkour[p.uniqueId]?.zPos}"  +
-                            " yaw ${hasParkour[p.uniqueId]?.yaw}" +
-                            " pitch ${hasParkour[p.uniqueId]?.pitch}"
-                )
-                return
+                p.inventory.addItem(ItemManager.parkourStart)
+                hasParkour[p.uniqueId] = true
             }
         }
     }
