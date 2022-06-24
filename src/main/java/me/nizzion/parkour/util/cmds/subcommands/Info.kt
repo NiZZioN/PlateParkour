@@ -18,6 +18,7 @@ class Info {
         p.sendMessage("$gray$st--------------------")
         p.sendMessage("$aqua - set")
         p.sendMessage("$aqua - delete")
+        p.sendMessage("$aqua - reload")
         p.sendMessage("$aqua - start")
         p.sendMessage("$aqua - finish")
         p.sendMessage("$gray$st---------------------------------------------")

@@ -1,8 +1,8 @@
 package me.nizzion.parkour.items
 
 import me.nizzion.parkour.Parkour
+import me.nizzion.parkour.util.Helper
 import me.nizzion.parkour.util.cmds.subcommands.Set
-import net.md_5.bungee.api.ChatColor
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemFlag
@@ -17,7 +17,8 @@ class ItemManager {
             get() {
                 val item = ItemStack(Material.LIGHT_WEIGHTED_PRESSURE_PLATE, 1)
                 val meta = item.itemMeta
-                meta?.setDisplayName("${ChatColor.DARK_AQUA}Parkour Start")
+
+                meta?.setDisplayName("${Helper.prefix} Parkour Start")
                 val lore = ArrayList<String>()
                 lore.add("This is the start point of your Parkour!")
                 lore.add("Place it inside your claim to mark the start!")

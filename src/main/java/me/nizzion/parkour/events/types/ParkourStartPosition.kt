@@ -1,8 +1,13 @@
 package me.nizzion.parkour.events.types
 
+import me.nizzion.parkour.Parkour
+import me.nizzion.parkour.files.ParkourConfig
 import me.nizzion.parkour.items.ItemManager
+import me.nizzion.parkour.util.Helper
 import me.nizzion.parkour.util.api.GriefPreventionAPI
 import me.nizzion.parkour.util.cmds.subcommands.Set
+import me.ryanhamshire.GriefPrevention.GriefPrevention
+import org.bukkit.GameMode
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
@@ -15,15 +20,32 @@ class ParkourStartPosition : Listener {
         if(e.action != Action.RIGHT_CLICK_BLOCK) {
             return
         }
-        if (e.item!!.itemMeta?.equals(ItemManager.parkourStart.itemMeta) == false) {
+        if(e.item!!.itemMeta?.equals(ItemManager.parkourStart.itemMeta) == false) {
+            return
+        }
+        if(e.player.gameMode != GameMode.SURVIVAL){
+            e.player.sendMessage("${Helper.prefix} Can't place parkour's in gamemode: ${e.player.gameMode}")
+            Parkour.instance.logger.info("Can't place parkour's in gamemode: ${e.player.gameMode}")
+            e.isCancelled = true
             return
         }
 
-        if(GriefPreventionAPI.isOnClaim(e.player, e.player.location)) {
-            if (!GriefPreventionAPI.isClaimOwner(e.player, e.player.location)) {
+        if(GriefPreventionAPI.isOnClaim(e.player, e.clickedBlock!!.location)) {
+            if (!GriefPreventionAPI.isClaimOwner(e.player, e.clickedBlock!!.location)) {
                 e.isCancelled = true
                 return
             }
+            if(!GriefPreventionAPI.hasBuildPermissions(e.player, e.clickedBlock!!.location)){
+                e.isCancelled = true
+                return
+            }
+            val claimID = GriefPrevention.instance.dataStore.getClaimAt(e.clickedBlock!!.location, false, null).id
+            ParkourConfig.cFile.set("parkour.$claimID.world", e.clickedBlock!!.world.name)
+            ParkourConfig.cFile.set("parkour.$claimID.x",     e.clickedBlock!!.x)
+            ParkourConfig.cFile.set("parkour.$claimID.y",     e.clickedBlock!!.y)
+            ParkourConfig.cFile.set("parkour.$claimID.z",     e.clickedBlock!!.z)
+            ParkourConfig.save()
+
             e.player.sendMessage("You placed the start!")
             Set.hasParkour.remove(e.player.uniqueId)
             return

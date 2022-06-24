@@ -3,6 +3,7 @@ package me.nizzion.parkour.util.cmds
 import me.nizzion.parkour.Parkour
 import me.nizzion.parkour.util.cmds.subcommands.Delete
 import me.nizzion.parkour.util.cmds.subcommands.Info
+import me.nizzion.parkour.util.cmds.subcommands.Reload
 import me.nizzion.parkour.util.cmds.subcommands.Set
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -30,6 +31,7 @@ class CommandManager: CommandExecutor {
                 when(args[0]){
                     "set"    -> Set.setValues(p)
                     "delete" -> Delete().deleteStart(p)
+                    "reload" -> Reload.reloadConfig()
                 }
             }
             2    -> Parkour.instance.logger.info("You triggered the command: pk with: ${args[0]}, ${args[1]}")
