@@ -61,7 +61,7 @@ class ParkourFinishPosition : Listener {
             .toString()
 
         ParkourConfig.cFile.set(
-            "parkour.start.${e.player.uniqueId}.claim_$claimID",
+            "parkour.finish.${e.player.uniqueId}.claim_$claimID",
             e.blockPlaced.location.add(0.5, 1.0, 0.5).serialize()
         )
         ParkourConfig.save()
