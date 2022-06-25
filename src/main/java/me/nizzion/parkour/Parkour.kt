@@ -30,6 +30,6 @@ class Parkour : JavaPlugin() {
     }
 
     companion object {
-        lateinit var instance:Parkour
+        lateinit var instance: Parkour
     }
 }

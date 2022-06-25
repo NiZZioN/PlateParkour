@@ -7,27 +7,27 @@ import org.bukkit.Location
 import org.bukkit.entity.Player
 
 object GriefPreventionAPI {
-    fun isClaimOwner (p: Player, loc: Location): Boolean {
+    fun isClaimOwner(p: Player, loc: Location): Boolean {
         val claim = GriefPrevention.instance.dataStore.getClaimAt(loc, false, null)
-        if(isOnClaim(p, loc) && claim.ownerID == p.uniqueId){
+        if (isOnClaim(p, loc) && claim.ownerID == p.uniqueId) {
             Parkour.instance.logger.info("${p.name} is the owner!")
             return true
         }
         return false
     }
 
-    fun hasBuildPermissions (p: Player, loc: Location): Boolean {
+    fun hasBuildPermissions(p: Player, loc: Location): Boolean {
         val claim = GriefPrevention.instance.dataStore.getClaimAt(loc, false, null)
-        if(isOnClaim(p, loc) && claim.hasExplicitPermission(p.uniqueId, ClaimPermission.Build)){
+        if (isOnClaim(p, loc) && claim.hasExplicitPermission(p.uniqueId, ClaimPermission.Build)) {
             Parkour.instance.logger.info("${p.name} has build Perms!")
             return true
         }
         return false
     }
 
-    fun isOnClaim(p: Player, loc: Location) : Boolean {
+    fun isOnClaim(p: Player, loc: Location): Boolean {
         val claim = GriefPrevention.instance.dataStore.getClaimAt(loc, false, null)
-        if(claim != null){
+        if (claim != null) {
             Parkour.instance.logger.info("${p.name} is on a claim!")
             return true
         }

@@ -7,10 +7,10 @@ import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class CommandManager: CommandExecutor {
+class CommandManager : CommandExecutor {
     private val commandList: MutableList<MutableList<String>> = mutableListOf()
 
-    fun registerCommands(){
+    fun registerCommands() {
         Parkour.instance.getCommand("parkour")?.setExecutor(this)
     }
 
@@ -19,17 +19,23 @@ class CommandManager: CommandExecutor {
     }
 
     private fun createCommand(args: Array<out String>, p: Player) {
-        if(args.isEmpty()){
+        if (args.isEmpty()) {
             Info().log(p)
             return
         }
         Parkour.instance.logger.info("You triggered the command: pk with: ${args[0]}")
-        when(args[0]){
-            "set"    -> Set.setValues(p)
-            "delete" -> Delete().deleteStart(p)
+        when (args[0]) {
+            "set" -> Set.setValues(p)
+            "delete" -> {
+                if (args.size < 2) {
+                    Delete().delete(p)
+                } else {
+                    Delete().deleteStart(p.uniqueId, args[1])
+                }
+            }
             "reload" -> Reload.reloadConfig()
             "tp" -> {
-                when(args[1]){
+                when (args[1]) {
                     "start" -> Teleport().toStart(p)
                     "finish" -> Teleport().toFinish()
                 }
@@ -47,13 +53,13 @@ class CommandManager: CommandExecutor {
         label: String,
         args: Array<out String>
     ): Boolean {
-        if(sender !is Player){
+        if (sender !is Player) {
             Parkour.instance.logger.info("Command cannot be exectued via Console")
             return true
         }
         val commandWithSubCommand: MutableList<String> = mutableListOf()
         commandWithSubCommand.add("pk")
-        if(args.isNotEmpty()){
+        if (args.isNotEmpty()) {
             args.forEach { commandWithSubCommand.add(it) }
         }
         commandList.add(commandWithSubCommand)

@@ -8,15 +8,15 @@ import java.io.File
 import java.io.IOException
 
 object ParkourConfig {
-    lateinit var cFile:FileConfiguration
-    lateinit var file:File
+    lateinit var cFile: FileConfiguration
+    lateinit var file: File
 
     fun init() {
         file = File(Bukkit.getServer().pluginManager.getPlugin("Parkour")?.dataFolder, "parkour_cfg.yml")
-        if(!file.exists()){
+        if (!file.exists()) {
             try {
                 file.createNewFile()
-            } catch (e: IOException){
+            } catch (e: IOException) {
                 Parkour.instance.logger.warning(e.message)
             }
         }
@@ -26,7 +26,7 @@ object ParkourConfig {
     fun save() {
         try {
             cFile.save(file)
-        } catch (e: IOException){
+        } catch (e: IOException) {
             Parkour.instance.logger.warning("Couldn't save file")
         }
     }
@@ -36,7 +36,7 @@ object ParkourConfig {
     }
 
     fun load() {
-        val test =  cFile.getConfigurationSection("parkour")?.getKeys(false)
+        val test = cFile.getConfigurationSection("parkour")?.getKeys(false)
         test?.forEach {
             Parkour.instance.logger.info("This is ${cFile.getConfigurationSection("parkour.$it")?.getKeys(true)}")
         }

@@ -7,8 +7,17 @@ import net.kyori.adventure.text.format.TextDecoration
 
 object Helper {
     val prefix = text()
-        .append(text("[", NamedTextColor.DARK_GRAY))
-        .append(text(Parkour.instance.name, NamedTextColor.DARK_AQUA).decoration(TextDecoration.BOLD, true))
-        .append(text("]", NamedTextColor.DARK_GRAY))
+        .append(
+            text("[", NamedTextColor.DARK_GRAY)
+                .decoration(TextDecoration.STRIKETHROUGH, false)
+        )
+        .append(
+            text(Parkour.instance.name, NamedTextColor.DARK_AQUA)
+                .decoration(TextDecoration.BOLD, true)
+        )
+        .append(
+            text("]", NamedTextColor.DARK_GRAY)
+                .decoration(TextDecoration.STRIKETHROUGH, false)
+        )
         .build()
 }

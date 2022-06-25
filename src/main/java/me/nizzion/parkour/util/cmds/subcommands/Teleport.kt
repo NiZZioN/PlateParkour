@@ -3,15 +3,14 @@ package me.nizzion.parkour.util.cmds.subcommands
 import me.nizzion.parkour.Parkour
 import me.nizzion.parkour.files.ParkourConfig
 import net.kyori.adventure.text.Component.text
-import net.kyori.adventure.text.event.ClickEvent
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.entity.Player
 import java.io.IOException
 
 class Teleport {
-    fun toStart(p: Player){
+    fun toStart(p: Player) {
         try {
-            val startPos = ParkourConfig.cFile.getConfigurationSection("parkour.start")?.getKeys(false)
+            val startPos = ParkourConfig.cFile.getConfigurationSection("parkour.start.${p.uniqueId}")?.getKeys(false)
             startPos?.forEach { pos ->
                 p.sendMessage("Teleporting to: $pos")
             }
@@ -29,7 +28,7 @@ class Teleport {
         }
     }
 
-    fun toFinish(){
+    fun toFinish() {
 
     }
 }
