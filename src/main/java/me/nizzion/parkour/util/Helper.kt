@@ -1,8 +1,14 @@
 package me.nizzion.parkour.util
 
 import me.nizzion.parkour.Parkour
-import org.bukkit.ChatColor
+import net.kyori.adventure.text.Component.text
+import net.kyori.adventure.text.format.NamedTextColor
+import net.kyori.adventure.text.format.TextDecoration
 
 object Helper {
-    val prefix = "${ChatColor.DARK_GRAY}[${ChatColor.DARK_AQUA}${Parkour.instance.name}${ChatColor.DARK_GRAY}]${ChatColor.DARK_AQUA}"
+    val prefix = text()
+        .append(text("[", NamedTextColor.DARK_GRAY))
+        .append(text(Parkour.instance.name, NamedTextColor.DARK_AQUA).decoration(TextDecoration.BOLD, true))
+        .append(text("]", NamedTextColor.DARK_GRAY))
+        .build()
 }

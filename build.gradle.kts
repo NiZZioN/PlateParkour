@@ -10,9 +10,9 @@ version = "1.0"
 
 repositories {
     mavenCentral()
-    maven {
-        name = "spigotmc-repo"
-        setUrl("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+    maven{
+        name = "papermc"
+        setUrl("https://repo.papermc.io/repository/maven-public/")
     }
     maven {
         name = "sonatype"
@@ -25,9 +25,11 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot-api:1.19-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.19-R0.1-SNAPSHOT")
     compileOnly("com.github.TechFortress:GriefPrevention:16.18")
     implementation(kotlin("stdlib"))
+    implementation("net.kyori:adventure-api:4.11.0")
+    implementation("net.kyori:adventure-text-serializer-gson:4.11.0")
 }
 
 tasks.processResources {
@@ -55,6 +57,10 @@ tasks.withType<Jar> {
 }
 
 val targetJavaVersion = "17"
+
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(targetJavaVersion))
+}
 
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {

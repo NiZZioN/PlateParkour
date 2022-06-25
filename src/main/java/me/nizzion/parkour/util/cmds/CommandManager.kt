@@ -1,9 +1,7 @@
 package me.nizzion.parkour.util.cmds
 
 import me.nizzion.parkour.Parkour
-import me.nizzion.parkour.util.cmds.subcommands.Delete
-import me.nizzion.parkour.util.cmds.subcommands.Info
-import me.nizzion.parkour.util.cmds.subcommands.Reload
+import me.nizzion.parkour.util.cmds.subcommands.*
 import me.nizzion.parkour.util.cmds.subcommands.Set
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -25,18 +23,17 @@ class CommandManager: CommandExecutor {
             Info().log(p)
             return
         }
-        when(args.size){
-            1 -> {
-                Parkour.instance.logger.info("You triggered the command: pk with: ${args[0]}")
-                when(args[0]){
-                    "set"    -> Set.setValues(p)
-                    "delete" -> Delete().deleteStart(p)
-                    "reload" -> Reload.reloadConfig()
+        Parkour.instance.logger.info("You triggered the command: pk with: ${args[0]}")
+        when(args[0]){
+            "set"    -> Set.setValues(p)
+            "delete" -> Delete().deleteStart(p)
+            "reload" -> Reload.reloadConfig()
+            "tp" -> {
+                when(args[1]){
+                    "start" -> Teleport().toStart(p)
+                    "finish" -> Teleport().toFinish()
                 }
             }
-            2    -> Parkour.instance.logger.info("You triggered the command: pk with: ${args[0]}, ${args[1]}")
-            3    -> Parkour.instance.logger.info("You triggered the command: pk with: ${args[0]}, ${args[1]}, ${args[2]}")
-            else -> Parkour.instance.logger.info("More arguments than needed.")
         }
         return
     }
@@ -58,13 +55,9 @@ class CommandManager: CommandExecutor {
         commandWithSubCommand.add("pk")
         if(args.isNotEmpty()){
             args.forEach { commandWithSubCommand.add(it) }
-            commandList.add(commandWithSubCommand)
-            createCommand(args, sender)
         }
-        if(args.isEmpty()){
-            commandList.add(commandWithSubCommand)
-            createCommand(args, sender)
-        }
+        commandList.add(commandWithSubCommand)
+        createCommand(args, sender)
         return true
     }
 

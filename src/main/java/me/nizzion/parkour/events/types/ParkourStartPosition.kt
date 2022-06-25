@@ -40,17 +40,14 @@ class ParkourStartPosition : Listener {
                 return
             }
             val claimID = GriefPrevention.instance.dataStore.getClaimAt(e.clickedBlock!!.location, false, null).id
-            ParkourConfig.cFile.set("parkour.$claimID.world", e.clickedBlock!!.world.name)
-            ParkourConfig.cFile.set("parkour.$claimID.x",     e.clickedBlock!!.x)
-            ParkourConfig.cFile.set("parkour.$claimID.y",     e.clickedBlock!!.y)
-            ParkourConfig.cFile.set("parkour.$claimID.z",     e.clickedBlock!!.z)
+            ParkourConfig.cFile.set("parkour.start.$claimID", e.clickedBlock!!.location.add(0.5, 1.0, 0.5))
             ParkourConfig.save()
 
             e.player.sendMessage("You placed the start!")
             Set.hasParkour.remove(e.player.uniqueId)
             return
         }
-        e.player.sendMessage("${ItemManager.parkourStart.itemMeta?.displayName} can only be placed inside your claim")
+        e.player.sendMessage("${ItemManager.parkourStart.itemMeta?.displayName()} can only be placed inside your claim")
         e.isCancelled = true
     }
 }
