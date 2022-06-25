@@ -36,9 +36,9 @@ object ParkourConfig {
     }
 
     fun load() {
-        val test = cFile.getConfigurationSection("parkour")?.getKeys(false)
-        test?.forEach {
-            Parkour.instance.logger.info("This is ${cFile.getConfigurationSection("parkour.$it")?.getKeys(true)}")
-        }
+//        val test = cFile.getConfigurationSection("parkour")?.getKeys(false)
+//        test?.forEach {
+//            Parkour.instance.logger.info("This is ${cFile.getConfigurationSection("parkour.$it")?.getKeys(true)}")
+//        }
     }
 }

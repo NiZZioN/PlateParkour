@@ -5,12 +5,11 @@ import me.nizzion.parkour.files.ParkourConfig
 import me.nizzion.parkour.items.ItemManager
 import me.nizzion.parkour.util.Helper
 import me.nizzion.parkour.util.api.GriefPreventionAPI
+import me.nizzion.parkour.util.cmds.subcommands.SetFinish
 import me.nizzion.parkour.util.cmds.subcommands.SetStart
 import me.ryanhamshire.GriefPrevention.GriefPrevention
-import net.kyori.adventure.text.Component.newline
+import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.Component.text
-import net.kyori.adventure.text.event.ClickEvent
-import net.kyori.adventure.text.event.HoverEvent
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.GameMode
 import org.bukkit.event.EventHandler
@@ -19,17 +18,17 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.player.PlayerInteractEvent
 
-class ParkourStartPosition : Listener {
+class ParkourFinishPosition : Listener {
     @EventHandler
     fun onRightClick(e: BlockPlaceEvent) {
-        if(!e.player.inventory.itemInMainHand.itemMeta.equals(ItemManager.parkourStart.itemMeta)) return
+        if(!e.player.inventory.itemInMainHand.itemMeta.equals(ItemManager.parkourFinish.itemMeta)) return
 
         if (e.player.gameMode != GameMode.SURVIVAL) {
             e.player.sendMessage(
                 text()
                     .append(Helper.prefix)
-                    .append(text(" Can't place parkour's in gamemode: ", NamedTextColor.RED))
-                    .append(text(e.player.gameMode.toString(), NamedTextColor.DARK_AQUA))
+                    .append(text(" Can't place parkour's in gamemode: ", NamedTextColor.DARK_GRAY))
+                    .append(text(e.player.gameMode.toString(), NamedTextColor.AQUA))
                     .build()
             )
             Parkour.instance.logger.info("Can't place parkour's in gamemode: ${e.player.gameMode}")
@@ -39,11 +38,11 @@ class ParkourStartPosition : Listener {
 
         if (!GriefPreventionAPI.isOnClaim(e.player, e.blockPlaced.location)) {
             e.player.sendMessage(
-                ItemManager.parkourStart.itemMeta?.displayName()
+                ItemManager.parkourFinish.itemMeta?.displayName()
                     ?.let {
                         text()
                             .append(it)
-                            .append(text(" can only be placed inside a claim!", NamedTextColor.RED))
+                            .append(text(" can only be placed inside your claim!", NamedTextColor.RED))
                             .build()
                     }!!
             )
@@ -60,28 +59,18 @@ class ParkourStartPosition : Listener {
             .toString()
 
         ParkourConfig.cFile.set(
-            "parkour.start.${e.player.uniqueId}.claim_$claimID",
+            "parkour.finish.${e.player.uniqueId}.claim_$claimID",
             e.blockPlaced.location.add(0.5, 1.0, 0.5).serialize()
         )
         ParkourConfig.save()
 
-        e.player.sendMessage(
-            text()
-                .append(Helper.prefix)
-                .append(text(" You placed the ", NamedTextColor.GRAY))
-                .append(text("start", NamedTextColor.AQUA))
-                .append(text("!", NamedTextColor.GRAY))
-                .append(newline())
-                .append(text("Now type: ", NamedTextColor.DARK_AQUA))
-                .append(
-                    text("/pk set finish", NamedTextColor.AQUA)
-                        .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/pk set finish"))
-                        .hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT, text("Click here", NamedTextColor.DARK_GRAY)))
-                )
-                .append(text(" for the next step!", NamedTextColor.DARK_AQUA))
-                .build()
+        e.player.sendMessage(text()
+            .append(Helper.prefix)
+            .append(text( " You placed the ", NamedTextColor.GRAY))
+            .append(text("finish", NamedTextColor.AQUA))
+            .append(text("!", NamedTextColor.GRAY))
+            .build()
         )
-
-        SetStart.hasParkourStart.remove(e.player.uniqueId)
+        SetFinish.hasParkourFinish.remove(e.player.uniqueId)
     }
 }

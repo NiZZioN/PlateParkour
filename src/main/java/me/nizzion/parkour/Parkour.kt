@@ -18,9 +18,8 @@ class Parkour : JavaPlugin() {
         ParkourConfig.cFile.options().copyDefaults(true)
         ParkourConfig.save()
 
-        ParkourConfig.load()
 
-        ItemManager.hasParkourStartOnLoad()
+        ItemManager.onLoad()
         ItemManager()
         EventManager().registerEvents()
         CommandManager().registerCommands()

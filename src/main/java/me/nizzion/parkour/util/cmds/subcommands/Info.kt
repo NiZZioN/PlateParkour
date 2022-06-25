@@ -9,8 +9,6 @@ import org.bukkit.entity.Player
 
 class Info {
     fun log(p: Player) {
-
-
         p.sendMessage(
             text()
                 .append(
