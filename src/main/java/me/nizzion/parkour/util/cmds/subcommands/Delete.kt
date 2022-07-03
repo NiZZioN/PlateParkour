@@ -85,7 +85,7 @@ class Delete {
         if(!checkIfClaimExists(uuid, id)) return
 
         ParkourConfig.cFile.set("parkour.$uuid.$id", null)
-        ParkourConfig.cFile.save(ParkourConfig.file)
+        ParkourConfig.save()
         SetStart.hasParkourStart.remove(uuid)
         SetFinish.hasParkourFinish.remove(uuid)
         locallogger(uuid," Successfully deleted Parkour on claim: ", id)

@@ -54,15 +54,11 @@ class ParkourStartPosition : Listener {
 
         if (!GriefPreventionAPI.hasBuildPermissions(e.player, e.blockPlaced.location)) return
 
-        val claimID = GriefPrevention.instance
-            .dataStore
-            .getClaimAt(e.blockPlaced.location, false, null)
-            .id
-            .toString()
+        val claimID = GriefPreventionAPI.getClaimID(e.blockPlaced.location) ?: return
 
         ParkourConfig.cFile.set(
-            "parkour.${e.player.uniqueId}.claim_$claimID.start",
-            e.blockPlaced.location.add(0.5, 1.0, 0.5).serialize()
+            "parkour.${e.player.uniqueId}.$claimID.start",
+            e.blockPlaced.location.add(0.5, 1.0, 0.5)
         )
         ParkourConfig.save()
 

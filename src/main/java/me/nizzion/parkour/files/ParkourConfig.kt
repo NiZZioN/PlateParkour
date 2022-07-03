@@ -2,10 +2,12 @@ package me.nizzion.parkour.files
 
 import me.nizzion.parkour.Parkour
 import org.bukkit.Bukkit
+import org.bukkit.Location
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
 import java.io.IOException
+import java.util.UUID
 
 object ParkourConfig {
     lateinit var cFile: FileConfiguration
@@ -29,6 +31,14 @@ object ParkourConfig {
         } catch (e: IOException) {
             Parkour.instance.logger.warning("Couldn't save file")
         }
+    }
+
+    fun getStart(uuid: UUID, claimID: String): Location? {
+        return cFile.getLocation("parkour.$uuid.$claimID.start")
+    }
+
+    fun getFinish(uuid: UUID, claimID: String): Location? {
+        return cFile.getLocation("parkour.$uuid.$claimID.finish")
     }
 
     fun reload() {

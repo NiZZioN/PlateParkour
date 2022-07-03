@@ -12,7 +12,6 @@ class Parkour : JavaPlugin() {
         config.options().copyDefaults()
         saveDefaultConfig()
 
-
         ParkourConfig.init()
         ParkourConfig.cFile.addDefault("parkour", "{}")
         ParkourConfig.cFile.options().copyDefaults(true)
