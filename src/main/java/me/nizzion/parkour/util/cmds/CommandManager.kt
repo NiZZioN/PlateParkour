@@ -78,37 +78,38 @@ class CommandManager : CommandExecutor {
                 //  adjust timer display and error messages accordingly, add miliseconds to timer and keep timer in hashmap for eachplayer
                 //  (partially done already)
 
-                val timer = Timer.hasTimer[p.uniqueId]
-                if(timer == null) {
-                    Timer(0, false, p)
-                    return
-                }
-
                 if(args.size == 1){
                     p.sendMessage("Do /pk timer <resume | time | reset | pause>")
                     return
                 }
 
                 when(args[1]) {
-                    "resume" -> {
-                        if(timer.isRunning) {
+                    "start" -> {
+                        val timer = Timer.hasTimer[p.uniqueId] ?: Timer(0, isRunning = false, isPaused = false, p = p)
+                        if(timer.isRunning && !timer.isPaused) {
                             p.sendMessage("Timer is already running...")
                             return
                         }
+                        if(timer.isPaused) timer.isPaused = false
                         timer.isRunning = true
                         p.sendMessage("Timer started.")
                         return
                     }
                     "pause" -> {
-                        if(!timer.isRunning) {
+                        val timer = Timer.hasTimer[p.uniqueId] ?: Timer(0, isRunning = false, isPaused = false, p = p)
+
+                        if(timer.isPaused) {
                             p.sendMessage("Already paused.")
                         }
-                        timer.isRunning = false
+                        p.sendMessage("Timer paused.")
+                        timer.isPaused = true
                         return
                     }
-                    "time" -> {
+                    "add" -> {
+                        val timer = Timer.hasTimer[p.uniqueId] ?: Timer(0, isRunning = false, isPaused = false, p = p)
+
                         if(args.size != 3){
-                            p.sendMessage("Usage /pk timer time <number>")
+                            p.sendMessage("Usage /pk timer add <time>")
                             return
                         }
                         try {
@@ -119,8 +120,13 @@ class CommandManager : CommandExecutor {
                             Parkour.instance.logger.warning(e.message)
                         }
                     }
-                    "reset" -> Timer.hasTimer.remove(p.uniqueId)
-                    else -> p.sendMessage("Do /pk timer <resume | time | reset | pause>")
+                    "stop" -> {
+                        val timer = Timer.hasTimer[p.uniqueId] ?: return
+                        timer.isRunning = false
+                        timer.time = 0
+                        Timer.hasTimer.remove(p.uniqueId)
+                    }
+                    else -> p.sendMessage("Do /pk timer <start | add | pause | stop>")
                 }
             }
             "rotation" -> {

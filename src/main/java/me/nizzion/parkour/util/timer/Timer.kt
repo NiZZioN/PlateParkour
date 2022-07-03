@@ -8,7 +8,7 @@ import org.bukkit.scheduler.BukkitRunnable
 import java.util.*
 import kotlin.collections.HashMap
 
-class Timer(var time: Int, var isRunning: Boolean, var p: Player) {
+class Timer(var time: Int, var isRunning: Boolean, var isPaused: Boolean, var p: Player) {
 
     init {
         hasTimer[p.uniqueId] = this
@@ -20,9 +20,8 @@ class Timer(var time: Int, var isRunning: Boolean, var p: Player) {
         val timerText = text()
             .append(text("$time"))
 
-        if(!isRunning) {
+        if(isPaused) {
             timerText.append(text(" paused.", NamedTextColor.DARK_AQUA))
-            return
         }
         timerText.build()
         p.sendActionBar(timerText)
@@ -31,13 +30,12 @@ class Timer(var time: Int, var isRunning: Boolean, var p: Player) {
     private fun run() {
         object : BukkitRunnable() {
             override fun run() {
+                if (!isRunning) return
                 sendActionBar()
-                if (!isRunning) {
-                    return
-                }
+                if(isPaused) return
                 time++
             }
-        }.runTaskTimerAsynchronously(Parkour.instance, 20, 20)
+        }.runTaskTimerAsynchronously(Parkour.instance, 0, 20)
     }
 
     companion object {
