@@ -37,7 +37,7 @@ class ParkourStartPosition : Listener {
             return
         }
 
-        if (!GriefPreventionAPI.isOnClaim(e.player, e.blockPlaced.location)) {
+        if (!GriefPreventionAPI.isOnClaim(e.blockPlaced.location)) {
             e.player.sendMessage(
                 ItemManager.parkourStart.itemMeta?.displayName()
                     ?.let {

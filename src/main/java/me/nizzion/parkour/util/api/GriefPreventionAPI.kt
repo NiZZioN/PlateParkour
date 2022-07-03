@@ -9,7 +9,7 @@ import org.bukkit.entity.Player
 object GriefPreventionAPI {
     fun isClaimOwner(p: Player, loc: Location): Boolean {
         val claim = GriefPrevention.instance.dataStore.getClaimAt(loc, false, null)
-        if (isOnClaim(p, loc) && claim.ownerID == p.uniqueId) {
+        if (isOnClaim(loc) && claim.ownerID == p.uniqueId) {
             return true
         }
         return false
@@ -17,13 +17,13 @@ object GriefPreventionAPI {
 
     fun hasBuildPermissions(p: Player, loc: Location): Boolean {
         val claim = GriefPrevention.instance.dataStore.getClaimAt(loc, false, null)
-        if (isOnClaim(p, loc) && claim.hasExplicitPermission(p.uniqueId, ClaimPermission.Build)) {
+        if (isOnClaim(loc) && claim.hasExplicitPermission(p.uniqueId, ClaimPermission.Build)) {
             return true
         }
         return false
     }
 
-    fun isOnClaim(p: Player, loc: Location): Boolean {
+    fun isOnClaim(loc: Location): Boolean {
         val claim = GriefPrevention.instance.dataStore.getClaimAt(loc, false, null)
         if (claim != null) {
             return true

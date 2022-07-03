@@ -18,7 +18,6 @@ class Teleport {
                 .append(text("[", NamedTextColor.DARK_GRAY))
                 .append(text("ur mom", NamedTextColor.GREEN))
                 .append(text("]", NamedTextColor.DARK_GRAY))
-//                .clickEvent(ClickEvent.clickEvent())
                 .build()
 
             p.sendMessage(example)

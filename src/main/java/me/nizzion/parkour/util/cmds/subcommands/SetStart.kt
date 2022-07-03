@@ -24,28 +24,7 @@ object SetStart {
             Parkour.instance.logger.info("${p.name} already has a Parkour Start!")
         } else {
             p.inventory.addItem(ItemManager.parkourStart)
-            p.sendMessage(
-                text()
-                    .append(Helper.prefix)
-                    .append(text(" Step 1:", NamedTextColor.DARK_GRAY))
-                    .append(newline())
-                    .append(text("              Place the ", NamedTextColor.DARK_AQUA))
-                    .append(ItemManager.parkourStart.displayName())
-                    .append(text(" "))
-                    .append(text("inside", NamedTextColor.AQUA)
-                        .decoration(TextDecoration.UNDERLINED, true))
-                    .append(text(" your ", NamedTextColor.DARK_AQUA))
-                    .append(newline())
-                    .append(text("              "))
-                    .append(text("claim", NamedTextColor.AQUA)
-                        .decoration(TextDecoration.UNDERLINED, true))
-                    .append(text(" to mark the ", NamedTextColor.DARK_AQUA))
-                    .append(text("start", NamedTextColor.AQUA)
-                        .decoration(TextDecoration.UNDERLINED, true))
-                    .append(text(" of the parkour!", NamedTextColor.DARK_AQUA))
-                    .append(newline())
-                    .build()
-            )
+            Info.firstStep(p)
             hasParkourStart[p.uniqueId] = true
         }
     }
