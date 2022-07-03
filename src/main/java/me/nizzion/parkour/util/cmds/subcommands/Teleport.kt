@@ -10,7 +10,7 @@ import java.io.IOException
 class Teleport {
     fun toStart(p: Player) {
         try {
-            val startPos = ParkourConfig.cFile.getConfigurationSection("parkour.start.${p.uniqueId}")?.getKeys(false)
+            val startPos = ParkourConfig.cFile.getConfigurationSection("parkour.${p.uniqueId}.start")?.getKeys(false)
             startPos?.forEach { pos ->
                 p.sendMessage("Teleporting to: $pos")
             }
@@ -23,7 +23,7 @@ class Teleport {
             p.sendMessage(example)
 
         } catch (e: IOException) {
-            Parkour.instance.logger.warning("IoExcetion: ${e.message}")
+            Parkour.instance.logger.warning("IoException: ${e.message}")
         }
     }
 

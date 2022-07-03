@@ -3,22 +3,23 @@ package me.nizzion.parkour.util.cmds.subcommands
 import me.nizzion.parkour.Parkour
 import me.nizzion.parkour.files.ParkourConfig
 import me.nizzion.parkour.util.Helper
+import me.nizzion.parkour.util.api.GriefPreventionAPI
+import me.ryanhamshire.GriefPrevention.GriefPrevention
 import net.kyori.adventure.text.Component.newline
 import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.event.ClickEvent
 import net.kyori.adventure.text.event.HoverEvent
 import net.kyori.adventure.text.format.NamedTextColor
+import net.kyori.adventure.text.format.TextDecoration
 import org.bukkit.entity.Player
 import java.util.*
 
 class Delete {
 
-    fun displayAllResults(p: Player, path: String, results: MutableSet<String>){
-        val displayPath = path.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+    fun displayAllResults(p: Player, results: MutableSet<String>){
         p.sendMessage(
             text()
                 .append(newline())
-                .append(text("$displayPath ", NamedTextColor.AQUA))
                 .append(text("Delete which?: ", NamedTextColor.DARK_AQUA))
                 .build()
         )
@@ -27,68 +28,67 @@ class Delete {
             val showCaseID = id.filter { it.isDigit() }
             Parkour.instance.logger.info("Claimid: $id")
 
+            val claim = GriefPreventionAPI.getClaim(showCaseID.toLong())
+            if(claim == null) {
+                Parkour.instance.logger.info("No claim found with this ID")
+                return
+            }
+
+            val loc = claim.lesserBoundaryCorner
+
             p.sendMessage(
                 text()
                     .append(text("  Parkour at:", NamedTextColor.GRAY))
                     .append(text(" $showCaseID", NamedTextColor.AQUA))
+                    .append(text(" [x: ${loc.x}, z:${loc.z}]", NamedTextColor.DARK_AQUA).decoration(TextDecoration.ITALIC, true))
                     .clickEvent(
                         ClickEvent.clickEvent(
                             ClickEvent.Action.RUN_COMMAND,
-                            "/pk delete $path $id"
+                            "/pk delete $id"
                         )
                     )
                     .hoverEvent(
                         HoverEvent.hoverEvent(
                             HoverEvent.Action.SHOW_TEXT,
                             text()
-                                .append(text("Delete parkour at ", NamedTextColor.GRAY))
-                                .append(text(showCaseID, NamedTextColor.AQUA))
+                                .append(text("Delete parkour at: ", NamedTextColor.GRAY))
+                                .append(text("[x: ${loc.x}, z:${loc.z}]", NamedTextColor.AQUA))
                                 .build()
                         )
                     )
+                    .append(newline())
+                    .build()
             )
         }
     }
 
     fun delete(p: Player) {
-        val startPos = ParkourConfig.cFile.getConfigurationSection("parkour.start.${p.uniqueId}")?.getKeys(false)
-        val finishPos = ParkourConfig.cFile.getConfigurationSection("parkour.finish.${p.uniqueId}")?.getKeys(false)
+        val claimID = ParkourConfig.cFile.getConfigurationSection("parkour.${p.uniqueId}")?.getKeys(false)
 
-        if(startPos == null || startPos.size == 0){
-            if(finishPos == null || finishPos.size == 0){
-                p.sendMessage(
-                    text()
-                        .append(Helper.prefix)
-                        .append(text(" No parkours set!", NamedTextColor.RED))
-                        .build()
-                )
-                return
-            }
-            displayAllResults(p, "finish", finishPos)
+        if(claimID == null || claimID.size == 0){
+            p.sendMessage(
+                text()
+                    .append(Helper.prefix)
+                    .append(text(" No parkours set!", NamedTextColor.RED))
+                    .build()
+            )
             return
         }
-
-        displayAllResults(p, "start", startPos)
-
-        if(finishPos != null && finishPos.size != 0){
-            displayAllResults(p, "finish", finishPos)
-        }
+        displayAllResults(p, claimID)
     }
 
-    fun configDelete(uuid: UUID, path: String, claimID: String) {
+    fun configDelete(uuid: UUID, claimID: String) {
         val id = checkIfNumeral(claimID)
 
         Parkour.instance.logger.info("raw claim id = $id")
 
-        if(!checkIfClaimExists(uuid, id, path)) return
+        if(!checkIfClaimExists(uuid, id)) return
 
-        ParkourConfig.cFile.set("parkour.$path.$uuid.$id", null)
+        ParkourConfig.cFile.set("parkour.$uuid.$id", null)
         ParkourConfig.cFile.save(ParkourConfig.file)
-        when(path){
-            "start" -> SetStart.hasParkourStart.remove(uuid)
-            "finish" -> SetFinish.hasParkourFinish.remove(uuid)
-        }
-        locallogger(uuid," Successfully deleted Parkour-$path on claim: ", id)
+        SetStart.hasParkourStart.remove(uuid)
+        SetFinish.hasParkourFinish.remove(uuid)
+        locallogger(uuid," Successfully deleted Parkour on claim: ", id)
     }
 
     private fun checkIfNumeral(claimID: String): String {
@@ -98,10 +98,10 @@ class Delete {
         return claimID
     }
 
-    private fun checkIfClaimExists(uuid: UUID, claimID: String, path: String): Boolean {
+    private fun checkIfClaimExists(uuid: UUID, claimID: String): Boolean {
         Parkour.instance.logger.info("Checking claimid before change: $claimID")
         ParkourConfig.reload()
-        val claimExists = ParkourConfig.cFile.getConfigurationSection("parkour.$path.$uuid.$claimID")?.getKeys(false)
+        val claimExists = ParkourConfig.cFile.getConfigurationSection("parkour.$uuid.$claimID")?.getKeys(false)
 
         if(claimExists == null || claimExists.size == 0 ){
             locallogger(uuid," Claim with this ID doesn't exist! try again! ", claimID)

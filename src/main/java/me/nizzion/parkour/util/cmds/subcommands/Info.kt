@@ -64,18 +64,6 @@ object Info {
                 .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/pk reload"))
                 .build()
         )
-        p.sendMessage(
-            text()
-                .append(text(" - start", NamedTextColor.DARK_AQUA))
-                .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/pk start"))
-                .build()
-        )
-        p.sendMessage(
-            text()
-                .append(text(" - finish", NamedTextColor.DARK_AQUA))
-                .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/pk finish"))
-                .build()
-        )
         p.sendMessage(bottomLine)
     }
 
@@ -84,43 +72,52 @@ object Info {
         p.sendMessage(title)
         p.sendMessage(text().append(text(" - Parkour", NamedTextColor.DARK_AQUA)).build())
         p.sendMessage(text().append(text(" Command:", NamedTextColor.GRAY)).build())
-        p.sendMessage(text().append(text(" /pk set <start | finish>", NamedTextColor.DARK_AQUA)).build())
-        p.sendMessage(bottomLine)
-    }
-
-    fun setDelete(p: Player) {
-        p.sendMessage(title)
-        p.sendMessage(text().append(text(" - Parkour", NamedTextColor.DARK_AQUA)).build())
-        p.sendMessage(text().append(text(" Command:", NamedTextColor.GRAY)).build())
         p.sendMessage(
             text()
-                .append(text(" /pk delete", NamedTextColor.DARK_AQUA)).build()
+                .append(text(" /pk set ", NamedTextColor.DARK_AQUA))
+                .append(text("<", NamedTextColor.DARK_GRAY))
                 .append(
-                    text("[<start | finish>]", NamedTextColor.DARK_AQUA)
+                    text("start", NamedTextColor.AQUA)
                         .hoverEvent(
                             HoverEvent.hoverEvent(
                                 HoverEvent.Action.SHOW_TEXT,
-                                text("Optional", NamedTextColor.AQUA).decoration(TextDecoration.ITALIC, true)
+                                text("Get the ", NamedTextColor.DARK_AQUA)
+                                    .append(text("Parkour-Start!", NamedTextColor.AQUA))
                             )
                         )
+                        .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/pk set start"))
                 )
+                .append(text(" | ", NamedTextColor.DARK_GRAY))
+                .append(
+                    text("finish", NamedTextColor.AQUA)
+                        .hoverEvent(
+                            HoverEvent.hoverEvent(
+                                HoverEvent.Action.SHOW_TEXT,
+                                text("Get the ", NamedTextColor.DARK_AQUA)
+                                    .append(text("Parkour-Finish!", NamedTextColor.AQUA))
+                            )
+                        )
+                        .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/pk set finish"))
+                )
+                .append(text(">", NamedTextColor.DARK_GRAY))
+                .build()
         )
         p.sendMessage(bottomLine)
     }
 
-    fun setDeleteId(p: Player, type: String){
+    fun setDeleteId(p: Player) {
         p.sendMessage(title)
         p.sendMessage(text().append(text(" - Parkour", NamedTextColor.DARK_AQUA)).build())
         p.sendMessage(text().append(text(" Command:", NamedTextColor.GRAY)).build())
         p.sendMessage(
             text()
-                .append(text(" /pk delete $type", NamedTextColor.DARK_AQUA))
+                .append(text(" /pk delete ", NamedTextColor.DARK_AQUA))
                 .append(
                     text("<id>", NamedTextColor.DARK_AQUA)
                         .hoverEvent(
                             HoverEvent.hoverEvent(
                                 HoverEvent.Action.SHOW_TEXT,
-                                text("Id of the Claim", NamedTextColor.AQUA).decoration(TextDecoration.ITALIC, true)
+                                text("ID of the Claim", NamedTextColor.AQUA).decoration(TextDecoration.ITALIC, true)
                             )
                         )
                 )
@@ -129,7 +126,7 @@ object Info {
         p.sendMessage(bottomLine)
     }
 
-    fun firstStep (p: Player) {
+    fun firstStep(p: Player) {
         p.sendMessage(
             text()
                 .append(Helper.prefix)
@@ -138,16 +135,22 @@ object Info {
                 .append(text("              Place the ", NamedTextColor.DARK_AQUA))
                 .append(ItemManager.parkourStart.displayName())
                 .append(text(" "))
-                .append(text("inside", NamedTextColor.AQUA)
-                    .decoration(TextDecoration.UNDERLINED, true))
+                .append(
+                    text("inside", NamedTextColor.AQUA)
+                        .decoration(TextDecoration.UNDERLINED, true)
+                )
                 .append(text(" your ", NamedTextColor.DARK_AQUA))
                 .append(Component.newline())
                 .append(text("              "))
-                .append(text("claim", NamedTextColor.AQUA)
-                    .decoration(TextDecoration.UNDERLINED, true))
+                .append(
+                    text("claim", NamedTextColor.AQUA)
+                        .decoration(TextDecoration.UNDERLINED, true)
+                )
                 .append(text(" to mark the ", NamedTextColor.DARK_AQUA))
-                .append(text("start", NamedTextColor.AQUA)
-                    .decoration(TextDecoration.UNDERLINED, true))
+                .append(
+                    text("start", NamedTextColor.AQUA)
+                        .decoration(TextDecoration.UNDERLINED, true)
+                )
                 .append(text(" of the parkour!", NamedTextColor.DARK_AQUA))
                 .append(Component.newline())
                 .build()

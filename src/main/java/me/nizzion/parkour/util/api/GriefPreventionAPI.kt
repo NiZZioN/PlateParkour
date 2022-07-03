@@ -1,6 +1,7 @@
 package me.nizzion.parkour.util.api
 
 import me.nizzion.parkour.Parkour
+import me.ryanhamshire.GriefPrevention.Claim
 import me.ryanhamshire.GriefPrevention.ClaimPermission
 import me.ryanhamshire.GriefPrevention.GriefPrevention
 import org.bukkit.Location
@@ -30,4 +31,13 @@ object GriefPreventionAPI {
         }
         return false
     }
+
+    fun getClaimID(loc: Location): String {
+        return "claim_${GriefPrevention.instance.dataStore.getClaimAt(loc, false, null).id}"
+    }
+
+    fun getClaim(claimID: Long): Claim? {
+        return GriefPrevention.instance.dataStore.getClaim(claimID)
+    }
+
 }

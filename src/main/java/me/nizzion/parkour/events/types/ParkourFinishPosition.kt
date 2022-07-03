@@ -61,7 +61,7 @@ class ParkourFinishPosition : Listener {
             .toString()
 
         ParkourConfig.cFile.set(
-            "parkour.finish.${e.player.uniqueId}.claim_$claimID",
+            "parkour.${e.player.uniqueId}.claim_$claimID.finish",
             e.blockPlaced.location.add(0.5, 1.0, 0.5).serialize()
         )
         ParkourConfig.save()
@@ -71,6 +71,7 @@ class ParkourFinishPosition : Listener {
             .append(text( " You placed the ", NamedTextColor.GRAY))
             .append(text("finish", NamedTextColor.AQUA))
             .append(text("!", NamedTextColor.GRAY))
+            .append(newline())
             .build()
         )
 

@@ -26,7 +26,7 @@ class CommandManager : CommandExecutor {
         when (args[0]) {
             "set" -> {
                 if (args.size == 1) {
-                    Info.setStart(p)
+                    SetStart.setValues(p)
                     return
                 }
 
@@ -41,24 +41,16 @@ class CommandManager : CommandExecutor {
             "delete" -> {
                 when(args.size) {
                     1 -> {
+                        Info.setDeleteId(p)
                         Delete().delete(p)
-                        p.sendMessage("")
                         return
                     }
                     2 -> {
-                        Info.setDeleteId(p, args[1])
+                        Delete().configDelete(p.uniqueId, args[1])
                         return
                     }
                 }
-
-                when(args[1]){
-                    "start" -> Delete().configDelete(p.uniqueId, args[1], args[2])
-                    "finish" -> Delete().configDelete(p.uniqueId, args[1], args[2])
-                    else -> {
-                        Info.setDelete(p)
-                        return
-                    }
-                }
+                return
             }
 
             "reload" -> Reload.reloadConfig()

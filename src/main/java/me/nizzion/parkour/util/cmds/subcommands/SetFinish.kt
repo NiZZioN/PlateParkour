@@ -3,6 +3,7 @@ package me.nizzion.parkour.util.cmds.subcommands
 import me.nizzion.parkour.Parkour
 import me.nizzion.parkour.items.ItemManager
 import me.nizzion.parkour.util.Helper
+import me.nizzion.parkour.util.api.GriefPreventionAPI
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.entity.Player

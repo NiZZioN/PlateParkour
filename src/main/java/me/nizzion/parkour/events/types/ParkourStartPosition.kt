@@ -5,6 +5,7 @@ import me.nizzion.parkour.files.ParkourConfig
 import me.nizzion.parkour.items.ItemManager
 import me.nizzion.parkour.util.Helper
 import me.nizzion.parkour.util.api.GriefPreventionAPI
+import me.nizzion.parkour.util.cmds.subcommands.SetFinish
 import me.nizzion.parkour.util.cmds.subcommands.SetStart
 import me.ryanhamshire.GriefPrevention.GriefPrevention
 import net.kyori.adventure.text.Component.newline
@@ -60,7 +61,7 @@ class ParkourStartPosition : Listener {
             .toString()
 
         ParkourConfig.cFile.set(
-            "parkour.start.${e.player.uniqueId}.claim_$claimID",
+            "parkour.${e.player.uniqueId}.claim_$claimID.start",
             e.blockPlaced.location.add(0.5, 1.0, 0.5).serialize()
         )
         ParkourConfig.save()
@@ -72,16 +73,9 @@ class ParkourStartPosition : Listener {
                 .append(text("start", NamedTextColor.AQUA))
                 .append(text("!", NamedTextColor.GRAY))
                 .append(newline())
-                .append(text("Now type: ", NamedTextColor.DARK_AQUA))
-                .append(
-                    text("/pk set finish", NamedTextColor.AQUA)
-                        .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/pk set finish"))
-                        .hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT, text("Click here", NamedTextColor.DARK_GRAY)))
-                )
-                .append(text(" for the next step!", NamedTextColor.DARK_AQUA))
                 .build()
         )
-
+        SetFinish.setValues(e.player)
         SetStart.hasParkourStart.remove(e.player.uniqueId)
     }
 }
